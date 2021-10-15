@@ -2,18 +2,25 @@ package petStore;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.HttpResponse;
 
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.json.simple.JSONObject;
 
 
-public class PetTest {
 
+public class PetTest {
+	
+	private HttpClient client = HttpClientBuilder.create().build();
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		PetTest pt = new PetTest();
+		pt.AddPet();
 		pt.getPetstore("available");
-		pt.createJson();
 
 	}
 	String url = "https://petstore3.swagger.io/api/v3/pet/findByStatus?status=available";
@@ -23,7 +30,10 @@ public class PetTest {
 			URL url=new URL("https://petstore3.swagger.io/api/v3/pet/findByStatus?status="+status);    
 			HttpURLConnection huc=(HttpURLConnection)url.openConnection();  
 			ResponseBuilder b = new ResponseBuilder();
-			System.out.println(b.getFullResponse(huc));
+			String Response = b.getFullResponse(huc);
+			boolean isPresent = Response.contains("LekhasPet");
+			
+			System.out.println("LekhasPet found in available pet list");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -35,28 +45,33 @@ public class PetTest {
 			method = new HttpPost("https://petstore3.swagger.io/api/v3/pet");
 			method.addHeader("accept","application/xml");
 			method.addHeader("Content-Type","application/json");
-			method.setEntity(null);
+			method.setEntity(new StringEntity(createJson()));
+			
+			HttpResponse httpResponse = client.execute(method);
+			int statusCode = httpResponse.getStatusLine().getStatusCode();
+			System.out.println(statusCode);
 			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 	}
 	
-	public JSONObject createJson() {
-		String message;
+	@SuppressWarnings("unchecked")
+	public String createJson() {
 		JSONObject json = new JSONObject();
 
 		json.put("id", "20");
-		json.put("name", "pinkuss");
-		
+
+		json.put("name", "LekhasPet");
+	
 		JSONObject jsonObj = new JSONObject();
 
-		jsonObj.put("id", 0);
-		jsonObj.put("name", "testName");
+		jsonObj.put("id", 1);
+		jsonObj.put("name", "Dogs");
 		json.put("category", jsonObj);
-
-		message = json.toString();
-		System.out.println(message);
-		return json;
+		json.put("status", "available");
+		
+		return json.toString();
+		
 	}
 }
