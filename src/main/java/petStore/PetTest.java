@@ -1,9 +1,7 @@
 package petStore;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 public class PetTest {
@@ -15,23 +13,16 @@ public class PetTest {
 
 	}
 	String url = "https://petstore3.swagger.io/api/v3/pet/findByStatus?status=available";
-	private CloseableHttpClient client = HttpClientBuilder.create().build();
 	
 	public void getPetstore(String status) {
-		HttpGet postRequest = null;
-		try {
-			postRequest = new HttpGet("https://petstore3.swagger.io/api/v3/pet/findByStatus?status="+status);
-			postRequest.addHeader("accept", "application/xml");
-			HttpResponse response = client.execute(postRequest);
-			response.getStatusLine();
-			System.out.println(response.getStatusLine());
+		try {		
+			URL url=new URL("https://petstore3.swagger.io/api/v3/pet/findByStatus?status=available");    
+			HttpURLConnection huc=(HttpURLConnection)url.openConnection();  
+			ResponseBuilder b = new ResponseBuilder();
+			System.out.println(b.getFullResponse(huc));
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (null != postRequest) {
-				postRequest.releaseConnection();
-			}
-		}
+		} 
 	}
 
 }
