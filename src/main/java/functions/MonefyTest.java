@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 public class MonefyTest extends Base {
@@ -42,14 +44,23 @@ public class MonefyTest extends Base {
 		return driver.findElement(By.xpath("//android.widget.GridView/android.widget.FrameLayout[2]/android.widget.FrameLayout"));}
 	WebElement SaveAmount() {
 		return driver.findElement(By.id("com.monefy.app.lite:id/save"));}
+	
 	WebElement MainBalance() {
-		return driver.findElement(By.id("com.monefy.app.lite:id/balance_amount"));}
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		return wait.until(ExpectedConditions.elementToBeClickable(By.id("com.monefy.app.lite:id/balance_amount")));}
+	
 	WebElement Add_Expense_Text() {
 		return driver.findElement(By.id("com.monefy.app.lite:id/amount_text"));}
 	WebElement Add_Expense_Note() {
 		return driver.findElement(By.id("com.monefy.app.lite:id/textinput_placeholder"));}
 	WebElement Submit_Button() {
 		return driver.findElement(By.id("com.monefy.app.lite:id/keyboard_action_button"));}
+	WebElement AddExp_Button() {
+		return driver.findElement(By.id("com.monefy.app.lite:id/expense_button_title"));}
+	WebElement ExpCatImage() {
+		return driver.findElement(By.xpath("//android.widget.GridView/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.ImageView"));}
+	
+	
 	
 
 	public void startApplication() {
@@ -80,6 +91,7 @@ public class MonefyTest extends Base {
 		initialAmount().sendKeys(amount);
 		CashImage().click();
 		SaveAmount().click();
+		
 		String MainBalance = MainBalance().getText();
 		boolean isAmountAdded = MainBalance.contains(amount);
 		Assert.assertTrue(isAmountAdded);		
@@ -87,11 +99,12 @@ public class MonefyTest extends Base {
 
 	public void addExpense() {
 		startApplication();
-		
+		AddExp_Button().click();
 		String Expenseamount = "1000";
 		Add_Expense_Text().sendKeys(Expenseamount);
 		Add_Expense_Note().sendKeys("Monthly Rent");
 		Submit_Button().click();
+		ExpCatImage().click();
 		
 	}
 }
