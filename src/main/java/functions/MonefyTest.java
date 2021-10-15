@@ -10,10 +10,11 @@ import org.testng.Assert;
 
 public class MonefyTest extends Base {
 
+	
 	public static void main(String[] args) {
-		MonefyTest mt = new MonefyTest();
+		//MonefyTest mt = new MonefyTest();
 		
-		mt.verifyAddAccountOptions();
+		//mt.verifyAddAccountOptions();
 
 	}
 	
