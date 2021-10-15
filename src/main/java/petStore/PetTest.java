@@ -12,7 +12,7 @@ public class PetTest {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		PetTest pt = new PetTest();
-		//pt.getPetstore("available");
+		pt.getPetstore("available");
 		pt.createJson();
 
 	}
@@ -20,7 +20,7 @@ public class PetTest {
 	
 	public void getPetstore(String status) {
 		try {		
-			URL url=new URL("https://petstore3.swagger.io/api/v3/pet/findByStatus?status=available");    
+			URL url=new URL("https://petstore3.swagger.io/api/v3/pet/findByStatus?status="+status);    
 			HttpURLConnection huc=(HttpURLConnection)url.openConnection();  
 			ResponseBuilder b = new ResponseBuilder();
 			System.out.println(b.getFullResponse(huc));
@@ -42,7 +42,7 @@ public class PetTest {
 		}
 	}
 	
-	public void createJson() {
+	public JSONObject createJson() {
 		String message;
 		JSONObject json = new JSONObject();
 
@@ -57,5 +57,6 @@ public class PetTest {
 
 		message = json.toString();
 		System.out.println(message);
+		return json;
 	}
 }
