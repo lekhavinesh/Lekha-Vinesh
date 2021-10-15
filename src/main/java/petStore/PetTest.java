@@ -61,16 +61,12 @@ public class PetTest {
 		JSONObject json = new JSONObject();
 
 		json.put("id", "20");
-
 		json.put("name", "LekhasPet");
-	
 		JSONObject jsonObj = new JSONObject();
-
 		jsonObj.put("id", 1);
 		jsonObj.put("name", "Dogs");
 		json.put("category", jsonObj);
 		json.put("status", "available");
-		
 		return json.toString();
 		
 	}
