@@ -3,13 +3,23 @@ package petStore;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.json.simple.JSONObject;
+
 
 public class PetTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		PetTest pt = new PetTest();
-		pt.getPetstore("available");
+		//pt.getPetstore("available");
+		pt.createJson();
 
 	}
 	String url = "https://petstore3.swagger.io/api/v3/pet/findByStatus?status=available";
@@ -22,7 +32,36 @@ public class PetTest {
 			System.out.println(b.getFullResponse(huc));
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		}
 	}
 
+	public void AddPet() {
+		HttpPost method = null;
+		try {
+			method = new HttpPost("https://petstore3.swagger.io/api/v3/pet");
+			method.addHeader("accept","application/xml");
+			method.addHeader("Content-Type","application/json");
+			method.setEntity(null);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	public void createJson() {
+		String message;
+		JSONObject json = new JSONObject();
+
+		json.put("id", "20");
+		json.put("name", "pinkus");
+		
+		JSONObject jsonObj = new JSONObject();
+
+		jsonObj.put("id", 0);
+		jsonObj.put("name", "testName");
+		json.put("category", jsonObj);
+
+		message = json.toString();
+		System.out.println(message);
+	}
 }
