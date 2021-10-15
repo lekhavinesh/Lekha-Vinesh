@@ -47,7 +47,7 @@ public class PetTest {
 		JSONObject json = new JSONObject();
 
 		json.put("id", "20");
-		json.put("name", "pinkus");
+		json.put("name", "pinkuss");
 		
 		JSONObject jsonObj = new JSONObject();
 
